@@ -8,16 +8,14 @@ class cadastroAdmin(admin.ModelAdmin):
 
 
     fieldsets = [
-        ('Dados Gerais', {'fields': ['fk_autor','reu']}),
+        ('Dados Gerais', {'fields': ['fk_autor',(('reu','documento'))]}),
         ('Endereço da Inicial', {'fields': [(('rua','numero','bairro')),(('cidade','cep'))]}),
         ('Dados Processo', {'fields': [(('numero_processo', 'segredo','advogado'))]}),
 
     ]
-
-
     list_display = ['fk_autor','numero_processo', 'bairro','cidade','segredo','advogado','data_inclusao']
     list_filter = ['fk_autor', 'bairro', 'cidade','segredo','advogado']
-    search_fields = ['numero_processo']
+    search_fields = [(('numero_processo'))]
    # save_on_top = True
 
 admin.site.register(cadastro,cadastroAdmin)

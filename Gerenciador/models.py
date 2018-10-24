@@ -30,8 +30,6 @@ class cadastro (models.Model):
     fk_conta =  models.IntegerField(default=0)
 
 
-    def __str__(self):
-        return '%s' % (self.reu)
 
 class statusgeral (models.Model):
 

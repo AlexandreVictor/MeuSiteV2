@@ -1,40 +1,51 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
-from .models import cadastro, autor
-
+from crispy_forms.layout import *
+from crispy_forms.bootstrap import *
+from .models import *
 
 class CadProcessoForm(forms.ModelForm):
     class Meta:
         model = cadastro
-        exclude = ['fk_autor','data_inclusao','numero']
+        exclude = ['data_inclusao','numero']
+        labels = {
+                 'fk_autor' : 'Autor do Processo',
+                 'reu' : 'Nome do Réu',
+                 'documento' : 'Cpf/Cnpj',
 
-    reu = forms.CharField(max_length=200,
-                         label = "Réu do Processo",
-                         required = True,)
-    documento = forms.CharField(max_length=14,
-                         label = "CPF/CNPJ",
-                         required = True,)
-    rua = forms.CharField(max_length=200,
-                         label = "Endereço da Inicial - Rua",
-                         required = True,)
-    """numero = forms.IntegerField()
-    bairro = forms.CharField(max_length=200)
-    cidade = forms.CharField(max_length=200)
-    complemento = forms.CharField(max_length=200)
-    cep = forms.CharField(max_length=8)
-    numero_processo = forms.IntegerField()
-    #segredo = forms.IntegerField(default=0)
-    segredo = forms.BooleanField()
-    advogado= forms.BooleanField()
-    data_inclusao = forms.DateTimeField()
-    fk_conta =  forms.IntegerField()"""
-    
-    def __init__(self, *args, **kwargs):
-        super(CadProcessoForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'id-CadProcessoForm'
-        self.helper.form_class = 'blueForms'
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'submit_survey'
-        self.helper.add_input(Submit('submit', 'Submit'))
+        }
+
+
+    helper = FormHelper()
+    helper.form_id = 'id-RelatorioForm'
+    helper.form_method = 'post'
+    #helper.form_class = 'post-form'
+    #Remove o label 
+    #helper.form_show_labels = False
+    form_style = 'inline'
+    helper.layout = Div(''
+                        ,Div('',
+                            Field('fk_autor',label = "whatever"  )
+                            ,css_class = 'form-group col-md-3')
+                        ,Div('',
+                            Field('reu', )
+                            ,css_class = 'form-group col-md-3')
+                          ,Div('',
+                            Field('documento', )
+                            ,css_class = 'form-group col-md-2')
+                    ,css_class = 'form-row')
+                    
+
+
+
+'''  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Password</label>
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+    </div>
+  </div>                    '''

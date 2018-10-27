@@ -1,0 +1,101 @@
+{% extends 'Gerenciador/base.html' %}
+
+{% load widget_tweaks%}
+
+{% block content %}
+
+
+<form>
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container justify-content-center">
+          <a class="navbar-brand justify-content-center">Dados do Processo</a>
+        </div>
+    </nav>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputautor">Autor do Processo</label>
+            {% render_field form.fk_autor class+="form-control"%}      
+    </div>
+    <div class="form-group col-md-5">
+      <label for="inputnomereu">Nome do Réu</label>
+      {% render_field form.reu class+="form-control"%}      
+    </div>
+    <div class="form-group col-md-3">
+        <label for="inputdocumento">Cpf/Cnpj</label>
+        {% render_field form.documento class+="form-control"%}      
+      </div>
+  </div>
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container justify-content-center">
+          <a class="navbar-brand justify-content-center">Dados da Inicial</a>
+        </div>
+    </nav>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputrua">Rua</label>
+            {% render_field form.rua class+="form-control"%}      
+    </div>
+    <div class="form-group col-md-1">
+      <label for="inputnumero">Número</label>
+      {% render_field form.numero class="form-control"%}      
+    </div>
+    <div class="form-group col-md-5">
+        <label for="inputcomplemento">Complemento</label>
+        {% render_field form.complemento class+="form-control" id="inputcomplemento" %}      
+      </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="inputbairro">Bairro</label>
+            {% render_field form.bairro class+="form-control"%}      
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputcidade">Cidade</label>
+      {% render_field form.cidade class+="form-control" %}      
+    </div>
+    <div class="form-group col-md-3">
+        <label for="inputcep">CEP</label>
+        {% render_field form.cep class+="form-control"%}      
+      </div>
+  </div>
+  <!-- <fieldset class="form-row"> -->
+    <div class="form-row">
+      <label class="">Possui advogado ?</label>
+      <div class="form-group col-md-4">
+        <div class="custom-control custom-radio custom-control-inline">
+            {% render_field form.advogado class+="custom-control-input" id="possuiadv1" type="radio" value="1"%}     
+            <label class="custom-control-label" for="possuiadv1">Sim</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            {% render_field form.advogado class+="custom-control-input" id="possuiadv2" type="radio" value="0" checked="checked"%}      
+            <label class="custom-control-label" for="possuiadv2" checked>Não</label>
+        </div>
+      </div>
+    <!-- </div>
+     <div class="form-row"> -->
+      <label class="">É segredo ?</label>
+      <div class="form-group col-md-4">
+        <div class="custom-control custom-radio custom-control-inline">
+            {% render_field form.segredo class+="custom-control-input" id="segredo1" type="radio" value="1"%}     
+            <label class="custom-control-label" for="segredo1">Sim</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            {% render_field form.segredo class+="custom-control-input" id="segredo2" type="radio" value="0" checked="checked"%}   
+            <label class="custom-control-label" for="segredo2" checked>Não</label>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container justify-content-center">
+          <a class="navbar-brand justify-content-center">Dados da Inicial</a>
+        </div>
+    </nav>
+  <button type="submit" class="btn btn-primary">Entrar</button>
+  <button type="submit" class="btn btn-danger">Cancelar</button>
+</form>
+
+
+
+{% endblock %}
+
+

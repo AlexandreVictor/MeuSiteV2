@@ -24,8 +24,8 @@ class cadastro (models.Model):
     cep = models.CharField(max_length=8)
     numero_processo = models.IntegerField()
     #segredo = models.IntegerField(default=0)
-    segredo = models.BooleanField(default=False ,verbose_name='Segredo ?')
-    advogado= models.BooleanField(default=False ,verbose_name='Tem advogado ?')
+    segredo = models.IntegerField(default=0 ,verbose_name='Segredo ?')
+    advogado= models.IntegerField(default=0 ,verbose_name='Tem advogado ?')
     data_inclusao = models.DateTimeField(auto_now=True, verbose_name ='Incluido em')
     fk_conta =  models.IntegerField(default=0)
 

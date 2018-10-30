@@ -20,7 +20,7 @@ class cadastro (models.Model):
     numero = models.IntegerField(null=True)
     bairro = models.CharField(max_length=200)
     cidade = models.CharField(max_length=200)
-    complemento = models.CharField(max_length=200, null=True)
+    complemento = models.CharField(max_length=200, null=True,blank=True)
     cep = models.CharField(max_length=8)
     numero_processo = models.IntegerField()
     #segredo = models.IntegerField(default=0)
@@ -28,9 +28,12 @@ class cadastro (models.Model):
     advogado= models.IntegerField(default=0 ,verbose_name='Tem advogado ?')
     data_inclusao = models.DateTimeField(auto_now=True, verbose_name ='Incluido em')
     fk_conta =  models.IntegerField(default=0)
+    
+    def __unicode__(self):
+        return self.reu
 
-
-
+    #def __str__(self):
+     #   return 
 class statusgeral (models.Model):
 
     fk_autor = models.ForeignKey(autor, on_delete=models.CASCADE)

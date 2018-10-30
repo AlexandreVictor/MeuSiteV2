@@ -4,27 +4,66 @@
 
 {% block content %}
 
+{%if errors%}
 
-<form>
+{% render_field errors %}
+
+{% endif %}
+
+<form method="POST">
+        <!-- Não se esqueça dessa tag -->
+        {% csrf_token %}
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container justify-content-center">
           <a class="navbar-brand justify-content-center">Dados do Processo</a>
         </div>
     </nav>
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-6">
       <label for="inputautor">Autor do Processo</label>
             {% render_field form.fk_autor class+="form-control"%}      
     </div>
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-4">
+        <label for="inputnumero_processo">Número do Processo</label>
+            {% render_field form.numero_processo class+="form-control"%}      
+    </div>
+    </div>
+    <div class="form-row">
+    <div class="form-group col-md-7">
       <label for="inputnomereu">Nome do Réu</label>
       {% render_field form.reu class+="form-control"%}      
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-5">
         <label for="inputdocumento">Cpf/Cnpj</label>
         {% render_field form.documento class+="form-control"%}      
       </div>
   </div>
+  <div class="form-row">
+        <label class="">Possui advogado ?</label>
+        <div class="form-group col-md-4">
+          <div class="custom-control custom-radio custom-control-inline">
+              {% render_field form.advogado class+="custom-control-input" id="possuiadv1" type="radio" value="1"%}     
+              <label class="custom-control-label" for="possuiadv1">Sim</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+              {% render_field form.advogado class+="custom-control-input" id="possuiadv2" type="radio" value="0" checked="checked"%}      
+              <label class="custom-control-label" for="possuiadv2" checked>Não</label>
+          </div>
+        </div>
+      <!-- </div>
+       <div class="form-row"> -->
+        <label class="">É segredo ?</label>
+        <div class="form-group col-md-4">
+          <div class="custom-control custom-radio custom-control-inline">
+              {% render_field form.segredo class+="custom-control-input" id="segredo1" type="radio" value="1"%}     
+              <label class="custom-control-label" for="segredo1">Sim</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+              {% render_field form.segredo class+="custom-control-input" id="segredo2" type="radio" value="0" checked="checked"%}   
+              <label class="custom-control-label" for="segredo2" checked>Não</label>
+          </div>
+        </div>
+      </div>
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container justify-content-center">
           <a class="navbar-brand justify-content-center">Dados da Inicial</a>
@@ -57,43 +96,18 @@
         <label for="inputcep">CEP</label>
         {% render_field form.cep class+="form-control"%}      
       </div>
+   
   </div>
-  <!-- <fieldset class="form-row"> -->
-    <div class="form-row">
-      <label class="">Possui advogado ?</label>
-      <div class="form-group col-md-4">
-        <div class="custom-control custom-radio custom-control-inline">
-            {% render_field form.advogado class+="custom-control-input" id="possuiadv1" type="radio" value="1"%}     
-            <label class="custom-control-label" for="possuiadv1">Sim</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            {% render_field form.advogado class+="custom-control-input" id="possuiadv2" type="radio" value="0" checked="checked"%}      
-            <label class="custom-control-label" for="possuiadv2" checked>Não</label>
-        </div>
-      </div>
-    <!-- </div>
-     <div class="form-row"> -->
-      <label class="">É segredo ?</label>
-      <div class="form-group col-md-4">
-        <div class="custom-control custom-radio custom-control-inline">
-            {% render_field form.segredo class+="custom-control-input" id="segredo1" type="radio" value="1"%}     
-            <label class="custom-control-label" for="segredo1">Sim</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            {% render_field form.segredo class+="custom-control-input" id="segredo2" type="radio" value="0" checked="checked"%}   
-            <label class="custom-control-label" for="segredo2" checked>Não</label>
-        </div>
-      </div>
-    </div>
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container justify-content-center">
           <a class="navbar-brand justify-content-center">Dados da Inicial</a>
         </div>
     </nav>
-  <button type="submit" class="btn btn-primary">Entrar</button>
-  <button type="submit" class="btn btn-danger">Cancelar</button>
+    <div class="form-group col-md-4">
+        <button type="submit" class="btn btn-success ">Entrar</button>
+        <button type="submit" class="btn btn-danger">Cancelar</button>
+    </div>
 </form>
-
 
 
 {% endblock %}

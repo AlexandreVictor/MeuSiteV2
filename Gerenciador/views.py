@@ -4,37 +4,33 @@ from django.template import loader
 from .forms import *
 from .models import *
 from django.shortcuts import redirect
+from django.views.generic import CreateView
 # Create your views here.
 
 def index(request):
     context = {'teste' : None}
     return render(request, 'Gerenciador/base.html', context)
 
-def cadProcesso(request):
-
-    if request.method == 'POST':
-        form = CadProcessoForm(request.POST)
-        if form.is_valid():
-            Relatorios = form.save(commit=False)
-            Relatorios = form.save()
-            return redirect(index)
-        else:
-            form = CadProcessoForm()
-
-    return render(request, 'Gerenciador/FormCad.html',{'form': CadProcessoForm()})
-
+def List_Processo(request):
+    processos_list = cadastro.objects.values().filter(id=1) #cadastro.objects.values_list('reu','documento')
+    context = { 'processos_list' : processos_list}
+    return render(request, 'Gerenciador/Lista_Processo.html', context)
 
 def FrmCadastro(request):
     errors = []
+    print(request.method)
     if request.method == 'POST':
         form = Cad_Form(request.POST)
         dados = form.data
-        Relatorios = form.save(commit=False)
-        if Cad_Form.valida_nome(form, dados['nome_relatorio']) is False:
-            print('Entrou no if')
-            errors = []
-            errors.append('O nome já está cadastrado')
-            return render(request, 'GerenciadordeRotinas/Cad_Relatorio.html',{'form': Cad_Form(),'errors': errors})
+        #print('Form é valido caralho ?',form.is_valid())
+        if form.is_valid():
+            form.save(commit=False)
+            if ValidaDados.verificaProcesso(numero_processo = dados['numero_processo']) is False:
+                errors.append("O processo já foi cadastrado")
+                return render(request, 'Gerenciador/Frm_Cad_Processo.html', {'form': form,'errors':errors})
+            #Salva o Form
+            form.save()
+            #Redireciona para pag
+            return redirect(index)
     else:
-        form = Cad_Form()
-    return render(request, 'Gerenciador/Frm_Cad_Processo.html', {'form': Cad_Form()})
+       return render(request, 'Gerenciador/Frm_Cad_Processo.html', {'form': Cad_Form()})

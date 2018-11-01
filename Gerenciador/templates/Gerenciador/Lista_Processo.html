@@ -1,10 +1,52 @@
+<!--https://www.devmedia.com.br/quicksearch-e-bootstrap-adicione-buscas-em-paginas-web/37629 -->
+
 {% extends 'Gerenciador/base.html' %}
 
 {% load widget_tweaks%}
 
 {% block content %}
-<p>teste</p>
-    {{ processos_list }}
 
+<div class="container">
+<table id="minhaTabela" class="table table-striped table-bordered table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Núm. Processo</th>
+        <th scope="col">Incluído Em</th>
+        <th scope="col">Bairro</th>
+        <th scope="col">Cidade</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%for e in object_list%}      
+      <tr>
+        <td>{{e.fk_autor_id}}</td>
+        <td>{{e.fk_autor_id}}</td>
+        <td>{{e.numero_processo}}</td>
+        <td>{{e.data_inclusao}}</td>
+        <td>{{e.bairro}}</td>
+        <td>{{e.cidade}}</td>                
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#minhaTabela').DataTable({
+        "language": {
+              "lengthMenu": "Mostrando _MENU_ registros por página",
+              "zeroRecords": "Nada encontrado",
+              "info": "Mostrando página _PAGE_ de _PAGES_",
+              "infoEmpty": "Nenhum registro disponível",
+              "infoFiltered": "(filtrado de _MAX_ registros no total)"
+          }
+      });
+});
+</script>
 
 {% endblock %}

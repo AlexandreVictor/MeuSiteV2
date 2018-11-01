@@ -4,15 +4,34 @@ from django.template import loader
 from .forms import *
 from .models import *
 from django.shortcuts import redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView,ListView
 # Create your views here.
+
+class Lista_Processo(ListView):
+    model = cadastro
+    template_name ='Gerenciador/Lista_Processo.html'
+    paginate_by = 10
+   # context_object_name = 'resultados'
+
+    def get_queryset(self, **kwargs):
+        print('teste')
+        filtro1 = self.request.GET.get('bairro', '')
+        return cadastro.objects.filter(bairro__icontains=filtro1,)
+
+    def get_context_data(self, **kwargs):
+        context = super(Lista_Processo, self).get_context_data(**kwargs)
+        context['bairro'] = self.request.GET.get('bairro', '')
+        #context['meuform'] = MeuForm
+        return context 
+
+
 
 def index(request):
     context = {'teste' : None}
     return render(request, 'Gerenciador/base.html', context)
 
 def List_Processo(request):
-    processos_list = cadastro.objects.values().filter(id=1) #cadastro.objects.values_list('reu','documento')
+    processos_list = cadastro.objects.filter(fk_autor=1).order_by('data_inclusao')
     context = { 'processos_list' : processos_list}
     return render(request, 'Gerenciador/Lista_Processo.html', context)
 

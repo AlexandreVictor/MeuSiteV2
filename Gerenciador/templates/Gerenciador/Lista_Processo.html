@@ -5,48 +5,90 @@
 {% load widget_tweaks%}
 
 {% block content %}
+<nav class="navbar navbar-light bg-light">
+    <div class="container justify-content-center">  
+        <form method="GET" action="" class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+                <select name="Autor" class="form-control ">
+                    <option>Selecione Autor</option>
+                    {%for autor in Autor %}      
+                    <option  value={{autor.id}}>{{autor.autor}} - {{autor.codigo}}</option>
+                    {% endfor %}      
+                  </select>
+                <label class="mx-sm-2">Ou</label>
+                <input type="search" name="NumeroProcesso" class="form-control" placeholder="Número Processo">      
+                <label class="mx-sm-2">Ou</label>
+                <input type="date" name="DataInclusao" class="form-control" placeholder="Número Processo">      
+              </div>
+              <button type="submit" class="btn btn-primary mx-sm-2 mb-2">Buscar</button>
+              <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Busca Avançada</button>
+        </form>
+    </div>
+  </nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Busca Avançada</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <div class="container">
-<table id="minhaTabela" class="table table-striped table-bordered table-sm">
+  <table id="minhaTabela" class="table table-striped table-bordered table-sm">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Autor</th>
         <th scope="col">Núm. Processo</th>
-        <th scope="col">Incluído Em</th>
+        <th scope="col">Tem advogado?</th>
+        <th scope="col">Segredo?</th>
         <th scope="col">Bairro</th>
         <th scope="col">Cidade</th>
+        <th scope="col">Incluído Em</th>
       </tr>
     </thead>
     <tbody>
         {%for e in object_list%}      
       <tr>
         <td>{{e.fk_autor_id}}</td>
-        <td>{{e.fk_autor_id}}</td>
+        <td>{{e.autor}}</td>
         <td>{{e.numero_processo}}</td>
-        <td>{{e.data_inclusao}}</td>
+        <td>{{e.advogado}}</td>                
+        <td>{{e.segredo}}</td>                
         <td>{{e.bairro}}</td>
         <td>{{e.cidade}}</td>                
+        <td>{{e.data_inclusao}}</td>
       </tr>
       {% endfor %}
     </tbody>
 </table>
 </div>
 
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<script>
-$(document).ready(function(){
-    $('#minhaTabela').DataTable({
-        "language": {
-              "lengthMenu": "Mostrando _MENU_ registros por página",
-              "zeroRecords": "Nada encontrado",
-              "info": "Mostrando página _PAGE_ de _PAGES_",
-              "infoEmpty": "Nenhum registro disponível",
-              "infoFiltered": "(filtrado de _MAX_ registros no total)"
-          }
-      });
-});
-</script>
 
 {% endblock %}

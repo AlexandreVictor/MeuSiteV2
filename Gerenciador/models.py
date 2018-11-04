@@ -4,11 +4,17 @@ from datetime import datetime
 
 class autor (models.Model):
 
-    autor = models.CharField(max_length=200)
+    nome_autor = models.CharField(max_length=200)
     codigo = models.IntegerField()
 
+    
     def __str__(self):
-        return '%s - %s' % (self.autor, self.codigo)
+        #return self.nome_autor
+        return self.nome_autor
+    
+    def __str__(self):
+        #return self.nome_autor
+        return '%s - %s' % (self.nome_autor, self.codigo)
 
 class cadastro (models.Model):
 

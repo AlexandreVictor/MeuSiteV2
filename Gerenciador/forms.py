@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from .models import *
-class Cad_Form(forms.ModelForm):
+class Frm_Cadastro_Processo(forms.ModelForm):
     
     segredo = forms.RadioSelect()
     advogado = forms.RadioSelect()
@@ -15,9 +15,7 @@ class Cad_Form(forms.ModelForm):
 class ValidaDados(forms.Form):
 
     def verificaProcesso(**kwargs):
-        
         numero_processo = kwargs.get('numero_processo')
-
         processoexiste = cadastro.objects.filter(numero_processo=numero_processo).exists()
         if processoexiste:
             print("processo já existe")
@@ -25,3 +23,9 @@ class ValidaDados(forms.Form):
         else:
             return True
 
+class Fmr_Status_Processo(forms.ModelForm):
+     class Meta:
+        model = statusgeral
+    # Campos que estarão no form
+        fields = '__all__'
+        exclude = ['data_alteracao']

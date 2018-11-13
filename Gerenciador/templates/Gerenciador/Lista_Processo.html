@@ -49,11 +49,11 @@
               <label class="" name="Segredo">É segredo ?</label>
           <div class="form-group col-md-4">
               <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="Segredo" value="0" class="custom-control-input" id="segredo1" required="">     
+                  <input type="radio" name="Segredo" value="1" class="custom-control-input" id="segredo1">     
                   <label class="custom-control-label" for="segredo1">Sim</label>
               </div>
               <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="Segredo" value="0" class="custom-control-input" checked="checked" id="segredo2" required="">   
+                  <input type="radio" name="Segredo" value="0" class="custom-control-input" checked="checked" id="segredo2">   
                   <label class="custom-control-label" for="segredo2" checked="">Não</label>
               </div>
             </div>
@@ -62,11 +62,11 @@
               <label class="" name="Advogado">Tem advogado ?</label>
           <div class="form-group col-md-6">
               <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="Advogado" value="0" class="custom-control-input" id="possuiadv1" required="">     
+                  <input type="radio" name="Advogado" value="1" class="custom-control-input" id="possuiadv1">     
                   <label class="custom-control-label" for="possuiadv1">Sim</label>
               </div>
               <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="Advogado" value="0" class="custom-control-input" checked="checked" id="possuiadv2" required="">   
+                  <input type="radio" name="Advogado" value="0" class="custom-control-input" checked="checked" id="possuiadv2">   
                   <label class="custom-control-label" for="possuiadv2" checked="">Não</label>
               </div>
             </div>
@@ -98,8 +98,8 @@
     <tbody>
         {%for e in object_list%} 
       <tr>
-        <td>{{e.fk_autor_id}}</td>
-        <td>{{e.nome_autor}}</td>
+        <td>1</td>
+        <td>{{e.fk_autor}}</td>
         <td>{{e.numero_processo}}</td>
         <td align="center">{% if e.advogado == 1 %}
               <img src="../../static/Gerenciador/img/ok2.png" alt="Tem advogado">

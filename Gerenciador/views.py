@@ -1,22 +1,50 @@
 ##http://pythonclub.com.br/class-based-views-django.html
 import datetime
+from django.urls import reverse, reverse_lazy, resolve
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
 from django.db.models import Q
 from .forms import *
 from .models import *
-
 from django.shortcuts import redirect
 from django.views.generic import CreateView,ListView
 # Create your views here.
 
 #@login_required
+class  CadastroProcessoView(CreateView):
+    model = cadastro
+    form_class = Frm_Cadastro_Processo
+    template_name = 'Gerenciador/Frm_Cad_Processo.html'
+    #success_url = reverse_lazy('List_Processo')
+
+    def get_success_url(self, **kwargs):
+        return reverse('StatusProcesso', kwargs={'pk': self.object.pk})
+
+class  StatusProcessoView(CreateView):
+    model = statusgeral
+    form_class = Fmr_Status_Processo
+    template_name = 'Gerenciador/Frm_Status_Processo.html'
+    success_url = reverse_lazy('List_Processo')
+    def get_queryset(self, **kwargs):
+        # Filtros Basicos 
+        f_Autor = self.request.GET.get('pk')
+        print(f_Autor)
+        
+        
+
+    def get_context_data(self, **kwargs):
+        context = super(StatusProcessoView, self).get_context_data(**kwargs)
+        print('teste',self.request.GET.get('pk'))
+        context['Autor']  = cadastro.objects.filter(pk=1).values()
+        #context['bairro'] = self.request.GET.get('bairro', '')
+        return context 
+
+
 class Lista_Processo(ListView):
     model = cadastro
     template_name ='Gerenciador/Lista_Processo.html'
-    #paginate_by = 10
-   # context_object_name = 'resultados'
+
     def get_queryset(self, **kwargs):
         #Objeto Q ORM
         filtro_Basico = Q()
@@ -45,30 +73,27 @@ class Lista_Processo(ListView):
 
         if f_Bairro:
             filtro_Avancado.add(Q(bairro__icontains=f_Bairro), Q.AND)
+        if f_Cidade:
+            filtro_Avancado.add(Q(cidade__icontains=f_Cidade), Q.AND)
+        if f_Segredo:
+            filtro_Avancado.add(Q(segredo=f_Segredo), Q.AND)
+        if f_Advogado:
+            filtro_Avancado.add(Q(advogado=f_Advogado), Q.AND)
         if filtro_Avancado:
             return cadastro.objects.filter(filtro_Avancado)
         else:
-            return cadastro.objects.prefetch_related('fk_autor').all()
-            #cadastro.objects.select_related('fk_autor').all().order_by('data_inclusao')
-
-       
-
+            return cadastro.objects.all()
+    
     def get_context_data(self, **kwargs):
         context = super(Lista_Processo, self).get_context_data(**kwargs)
         context['Autor']  = autor.objects.select_related('fk_autor').values()
         #context['bairro'] = self.request.GET.get('bairro', '')
         return context 
 
-    
-
 def index(request):
     context = {'teste' : None}
     return render(request, 'Gerenciador/base.html', context)
 
-def List_Processo(request):
-    processos_list = cadastro.objects.filter(fk_autor=1).order_by('data_inclusao')
-    context = { 'processos_list' : processos_list}
-    return render(request, 'Gerenciador/Lista_Processo.html', context)
 
 def FrmCadastro(request):
     errors = []

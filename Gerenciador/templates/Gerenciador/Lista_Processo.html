@@ -94,6 +94,7 @@
                 <th scope="col">Bairro</th>
                 <th scope="col">Cidade</th>
                 <th scope="col">Data Cad.</th>
+                <th scope="col">Detalhes</th>
             </tr>
         </thead>
         <tbody>
@@ -104,21 +105,24 @@
                 <td>{{e.numero_processo}}</td>
                 <td align="center">
                     {% if e.advogado == 1 %}
-                    <img src="../../static/Gerenciador/img/ok2.png" alt="Tem advogado">
+                    <img class="img img-small" src="../../static/Gerenciador/img/ok2.png"  alt="Tem advogado">
                     {% else %}
-                    <img src="../../static/Gerenciador/img/delete.png" alt="Não tem Advogado">
+                    <img class="img img-small" src="../../static/Gerenciador/img/delete.png"   alt="Não tem Advogado">
                     {% endif %}
                 </td>
                 <td align="center">
                     {% if e.segredo == 1 %}
-                    <img src="../../static/Gerenciador/img/ok2.png" alt="Tem advogado">
+                    <img class="img img-small" src="../../static/Gerenciador/img/ok2.png"  alt="Tem advogado">
                     {% else %}
-                    <img src="../../static/Gerenciador/img/delete.png" alt="Não tem Advogado">
+                    <img  class="img img-small" src="../../static/Gerenciador/img/delete.png"  alt="Não tem Advogado">
                     {% endif %}
                 </td>
                 <td>{{e.bairro}}</td>
                 <td>{{e.cidade}}</td>
                 <td>{{e.data_inclusao | date:"d/m/Y h:s:i"}}</td>
+                <td align="center">
+                    <img class="img img-small" src="../../static/Gerenciador/img/detalhes1.png" alt="Detalhes">
+                </td>
             </tr>
             {% endfor %}
         </tbody>

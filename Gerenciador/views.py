@@ -1,4 +1,5 @@
 ##http://pythonclub.com.br/class-based-views-django.html
+##http://mindbending.org/pt/customizando-a-autenticacao-de-usuarios-no-django-19
 import datetime
 from .forms import *
 from .models import *
@@ -25,7 +26,7 @@ class  StatusProcessoView(CreateView):
     model = statusgeral
     form_class = Frm_Status_Processo
     template_name = 'Gerenciador/Frm_Status_Processo.html'
-    success_url = reverse_lazy('Lista_Processo')
+    success_url = reverse_lazy('ListaProcesso')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,7 +41,7 @@ class  StatusProcessoView(CreateView):
         form.instance.fk_cadastro_id = self.kwargs.get('pk') #self.kwargs['pk']
         print(form.data)
         return super().form_valid(form)
-
+# ---------------------------- DETALHES DE PROCESSOS
 class DetalhesProcessoView(DetailView):
     model = cadastro
     template_name = 'Gerenciador/Detalhe_Processo.html'
@@ -50,10 +51,6 @@ class DetalhesProcessoView(DetailView):
 	    cadastro_list = cadastro.objects.all()
 	    context['cadastro_list'] = cadastro_list 
 	    return context 
-
-
-
-
 # ---------------------------- LISTA DE PROCESSOS
 class ListaProcessoView(ListView):
     model = cadastro

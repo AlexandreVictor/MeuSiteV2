@@ -36,22 +36,22 @@
         <label class="">Possui advogado ?</label>
         <div class="form-group col-md-4">
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" name="advogado" value="0" class="custom-control-input" value="1" id="possuiadv1" {% if cadastro_list.advogado == 1 %} checked="checked" {% endif %} disabled>
+                <input type="radio" name="advogado" value="0" class="custom-control-input" value="1" id="possuiadv1" {% if cadastro_list.advogado   ==      "1" %} checked="checked" {% endif %} disabled>
                 <label class="custom-control-label" for="possuiadv1">Sim</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" name="advogado" value="0" class="custom-control-input" {% if cadastro_list.advogado != 1 %} checked="checked" {% endif %} value="0" id="possuiadv2" disabled>
+                <input type="radio" name="advogado" value="0" class="custom-control-input" {% if cadastro_list.advogado !=  "1" %} checked="checked" {% endif %} value="0" id="possuiadv2" disabled>
                 <label class="custom-control-label" for="possuiadv2">Não</label>
             </div>
         </div>
         <label class="">É segredo ?</label>
         <div class="form-group col-md-4">
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" name="segredo" value="0" class="custom-control-input" {% if cadastro_list.segredo == 1 %} checked="checked" {% endif %} value="1" id="segredo1" disabled>
+                <input type="radio" name="segredo" value="0" class="custom-control-input" {% if cadastro_list.segredo   ==  "1" %} checked="checked" {% endif %} value="1" id="segredo1" disabled>
                 <label class="custom-control-label" for="segredo1">Sim</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" name="segredo" value="0" class="custom-control-input" {% if cadastro_list.segredo != 1 %} checked="checked" {% endif %} value="0" id="segredo2" disabled>
+                <input type="radio" name="segredo" value="0" class="custom-control-input" {% if cadastro_list.segredo !=    "1" %} checked="checked" {% endif %} value="0" id="segredo2" disabled>
                 <label class="custom-control-label" for="segredo2" checked>Não</label>
             </div>
         </div>
@@ -64,11 +64,11 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputrua">Rua</label>
-            <input type="text" name="rua" maxlength="200" class="form-control"  id="id_rua" value="{{cadastro_list.rua}}" disabled>
+            <input type="text" name="rua" maxlength="200" class="form-control" id="id_rua" value="{{cadastro_list.rua}}" disabled>
         </div>
         <div class="form-group col-md-1">
             <label for="inputnumero">Número</label>
-            <input type="number" name="numero" class="form-control"  id="id_numero" value="{{cadastro_list.numero}}" disabled>
+            <input type="number" name="numero" class="form-control" id="id_numero" value="{{cadastro_list.numero}}" disabled>
         </div>
         <div class="form-group col-md-5">
             <label for="inputcomplemento">Complemento</label>
@@ -94,14 +94,20 @@
 
     </div>
 </form>
+{{cadastro_list.pk}}
+<form method="POST">
+    <!-- Não se esqueça dessa tag -->
+    {% csrf_token %}
 
-{{form.as_p}}
-
-
-{% endblock %}
-
-
+    {{form.as_p}}
+    <button type="submit" class="btn btn-success ">Entrar</button>
+</form>
 
 
 
-            
+    {% endblock %}
+
+
+
+
+

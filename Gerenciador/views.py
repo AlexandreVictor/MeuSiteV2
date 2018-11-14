@@ -7,25 +7,25 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
 from django.db.models import Q
-from django.views.generic import CreateView,ListView
+from django.views.generic import CreateView, ListView, DetailView
 # Create your views here.
 
 #@login_required
+# ---------------------------- CADASTRO DE PROCESSOS 
 class  CadastroProcessoView(CreateView):
     model = cadastro
     form_class = Frm_Cadastro_Processo
     template_name = 'Gerenciador/Frm_Cad_Processo.html'
-    #success_url = reverse_lazy('List_Processo')
+    #success_url = reverse_lazy('Lista_Processo')
 
     def get_success_url(self, **kwargs):
         return reverse('StatusProcesso', kwargs={'pk': self.object.pk})
-
+# ---------------------------- CADASTRO DE PROCESSOS STATUS DO PROCESSO
 class  StatusProcessoView(CreateView):
     model = statusgeral
     form_class = Frm_Status_Processo
     template_name = 'Gerenciador/Frm_Status_Processo.html'
-    success_url = reverse_lazy('List_Processo')
-    
+    success_url = reverse_lazy('Lista_Processo')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,8 +36,26 @@ class  StatusProcessoView(CreateView):
         })
         return context
 
+    def form_valid(self, form):
+        form.instance.fk_cadastro_id = self.kwargs.get('pk') #self.kwargs['pk']
+        print(form.data)
+        return super().form_valid(form)
 
-class Lista_Processo(ListView):
+class DetalhesProcessoView(DetailView):
+    model = cadastro
+    template_name = 'Gerenciador/Detalhe_Processo.html'
+
+    def get_context_data(self, **kwargs):
+	    context = super(DetalhesProcessoView, self).get_context_data(**kwargs) 
+	    cadastro_list = cadastro.objects.all()
+	    context['cadastro_list'] = cadastro_list 
+	    return context 
+
+
+
+
+# ---------------------------- LISTA DE PROCESSOS
+class ListaProcessoView(ListView):
     model = cadastro
     template_name ='Gerenciador/Lista_Processo.html'
     paginate_by = 15 
@@ -83,9 +101,23 @@ class Lista_Processo(ListView):
             return cadastro.objects.all()
     
     def get_context_data(self, **kwargs):
-        context = super(Lista_Processo, self).get_context_data(**kwargs)
+        context = super(ListaProcessoView, self).get_context_data(**kwargs)
         context['Autor']  = autor.objects.select_related('fk_autor').values()
         return context 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def index(request):
     context = {'teste' : None}

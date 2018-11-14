@@ -24,8 +24,17 @@ class ValidaDados(forms.Form):
             return True
 
 class Frm_Status_Processo(forms.ModelForm):
-     class Meta:
+     
+    #fk_cadastro = forms.CharField(required = False)
+    
+    
+    class Meta:
         model = statusgeral
     # Campos que estarão no form
         fields = '__all__'
         exclude = ['data_alteracao']
+
+
+    #def __init__(self, *args, **kwargs):
+    #    self.pk_cadastro = kwargs.pop('pk', None)
+    #    super(Frm_Status_Processo, self).__init__(*args, **kwargs)

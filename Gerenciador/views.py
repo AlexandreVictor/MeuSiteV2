@@ -1,13 +1,12 @@
 ##http://pythonclub.com.br/class-based-views-django.html
 import datetime
+from .forms import *
+from .models import *
 from django.urls import reverse, reverse_lazy, resolve
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
 from django.db.models import Q
-from .forms import *
-from .models import *
-from django.shortcuts import redirect
 from django.views.generic import CreateView,ListView
 # Create your views here.
 
@@ -23,27 +22,26 @@ class  CadastroProcessoView(CreateView):
 
 class  StatusProcessoView(CreateView):
     model = statusgeral
-    form_class = Fmr_Status_Processo
+    form_class = Frm_Status_Processo
     template_name = 'Gerenciador/Frm_Status_Processo.html'
     success_url = reverse_lazy('List_Processo')
-    def get_queryset(self, **kwargs):
-        # Filtros Basicos 
-        f_Autor = self.request.GET.get('pk')
-        print(f_Autor)
-        
-        
+    
 
     def get_context_data(self, **kwargs):
-        context = super(StatusProcessoView, self).get_context_data(**kwargs)
-        print('teste',self.request.GET.get('pk'))
-        context['Autor']  = cadastro.objects.filter(pk=1).values()
-        #context['bairro'] = self.request.GET.get('bairro', '')
-        return context 
+        context = super().get_context_data(**kwargs)
+        cadastro_pk = self.kwargs['pk']
+        cadastro_list = cadastro.objects.get(pk=cadastro_pk)
+        context.update({
+            'cadastro_list': cadastro_list
+        })
+        return context
 
 
 class Lista_Processo(ListView):
     model = cadastro
     template_name ='Gerenciador/Lista_Processo.html'
+    paginate_by = 15 
+ 
 
     def get_queryset(self, **kwargs):
         #Objeto Q ORM
@@ -87,7 +85,6 @@ class Lista_Processo(ListView):
     def get_context_data(self, **kwargs):
         context = super(Lista_Processo, self).get_context_data(**kwargs)
         context['Autor']  = autor.objects.select_related('fk_autor').values()
-        #context['bairro'] = self.request.GET.get('bairro', '')
         return context 
 
 def index(request):

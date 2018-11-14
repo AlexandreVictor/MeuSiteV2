@@ -9,6 +9,9 @@ class autor (models.Model):
     nome_autor = models.CharField(max_length=200)
     codigo = models.IntegerField()
 
+
+    def __str__(self):
+        return self.codigo
     
     def __str__(self):
         #return self.nome_autor
@@ -20,6 +23,8 @@ class autor (models.Model):
 
 class cadastro (models.Model):
 
+    class Meta:
+        ordering = ['data_inclusao']
 
     fk_autor=models.ForeignKey(autor, on_delete=models.CASCADE)
     reu = models.CharField(max_length=200)
@@ -41,13 +46,15 @@ class cadastro (models.Model):
 class statusgeral (models.Model):
 
     STATUS_ACOMPANHAMENTO = (
-        (1,"Teste - 1"),
-        (2,"Teste - 2"),
-        (3,"Teste - 3"),
-        (4,"Teste - 4"),
-        (5,"Teste - 5")
+        (1,"I - Inicial"),
+        (2,"II - Liminar"),
+        (3,"III - Mandado Expedido"),
+        (4,"IV - Mandado Devolvido"),
+        (5,"VI - Novo Mandado"),
+        (6,"VII - Baixado"),
     )
 
     fk_cadastro = models.ForeignKey(cadastro, on_delete=models.CASCADE)
     data_alteracao = models.DateTimeField(auto_now=True)
     status_acompanhamento = models.IntegerField(choices=STATUS_ACOMPANHAMENTO, default=1) 
+    notas = models.CharField(max_length=250, blank=True)

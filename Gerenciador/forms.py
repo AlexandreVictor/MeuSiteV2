@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from .models import *
+from Gerenciador.models import *
 class Frm_Cadastro_Processo(forms.ModelForm):
     
     segredo = forms.RadioSelect()
@@ -23,7 +23,7 @@ class ValidaDados(forms.Form):
         else:
             return True
 
-class Fmr_Status_Processo(forms.ModelForm):
+class Frm_Status_Processo(forms.ModelForm):
      class Meta:
         model = statusgeral
     # Campos que estarão no form

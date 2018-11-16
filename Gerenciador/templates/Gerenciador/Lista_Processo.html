@@ -121,7 +121,9 @@
                 <td>{{e.cidade}}</td>
                 <td>{{e.data_inclusao | date:"d/m/Y h:s:i"}}</td>
                 <td align="center">
-                    <img class="img img-small" src="../../static/Gerenciador/img/detalhes1.png" alt="Detalhes">
+                    <a href={% url 'DetalheProcesso' e.id %}>
+                        <img class="img img-small" src="../../static/Gerenciador/img/detalhes1.png" alt="Detalhes">
+                    </a>
                 </td>
             </tr>
             {% endfor %}

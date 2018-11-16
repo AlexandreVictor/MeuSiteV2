@@ -37,20 +37,31 @@ class  StatusProcessoView(CreateView):
         })
         return context
 
+    def form_is_invalid(self, form):
+        print(form.data)
+        return super().form_valid(form)
+
     def form_valid(self, form):
         form.instance.fk_cadastro_id = self.kwargs.get('pk') #self.kwargs['pk']
         print(form.data)
         return super().form_valid(form)
 # ---------------------------- DETALHES DE PROCESSOS
 class DetalhesProcessoView(DetailView):
-    model = cadastro
+    model = statusgeral
     template_name = 'Gerenciador/Detalhe_Processo.html'
 
+
     def get_context_data(self, **kwargs):
-	    context = super(DetalhesProcessoView, self).get_context_data(**kwargs) 
-	    cadastro_list = cadastro.objects.all()
-	    context['cadastro_list'] = cadastro_list 
-	    return context 
+        context = super().get_context_data(**kwargs)
+        cadastro_pk = self.kwargs['pk']
+        cadastro_list = cadastro.objects.get(pk=cadastro_pk)
+        statusgeral_list = statusgeral.objects.all().filter(fk_cadastro_id=cadastro_pk)
+        context.update({
+            'cadastro_list': cadastro_list,
+            'statusgeral_list': statusgeral_list
+        })
+        return context
+
 # ---------------------------- LISTA DE PROCESSOS
 class ListaProcessoView(ListView):
     model = cadastro
@@ -101,8 +112,6 @@ class ListaProcessoView(ListView):
         context = super(ListaProcessoView, self).get_context_data(**kwargs)
         context['Autor']  = autor.objects.select_related('fk_autor').values()
         return context 
-
-
 
 
 

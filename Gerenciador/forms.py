@@ -12,29 +12,12 @@ class Frm_Cadastro_Processo(forms.ModelForm):
         fields = '__all__'
         exclude = ['data_inclusao','fk_conta']
 
-class ValidaDados(forms.Form):
-
-    def verificaProcesso(**kwargs):
-        numero_processo = kwargs.get('numero_processo')
-        processoexiste = cadastro.objects.filter(numero_processo=numero_processo).exists()
-        if processoexiste:
-            print("processo já existe")
-            return False
-        else:
-            return True
-
 class Frm_Status_Processo(forms.ModelForm):
      
-    #fk_cadastro = forms.CharField(required = False)
-    
+    notas = forms.CharField(required = False, widget=forms.Textarea)
     
     class Meta:
         model = statusgeral
     # Campos que estarão no form
         fields = '__all__'
-        exclude = ['data_alteracao']
-
-
-    #def __init__(self, *args, **kwargs):
-    #    self.pk_cadastro = kwargs.pop('pk', None)
-    #    super(Frm_Status_Processo, self).__init__(*args, **kwargs)
+        exclude = ['data_alteracao','fk_cadastro']

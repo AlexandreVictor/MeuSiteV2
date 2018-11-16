@@ -1,13 +1,150 @@
 {% extends 'Gerenciador/base.html' %}
-
+{% load static %} 
 {% load widget_tweaks%}
 
 {% block content %}
 
+<form>
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container justify-content-center">
+            <a class="navbar-brand justify-content-center">Dados do Processo</a>
+        </div>
+    </nav>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputautor">Autor do Processo</label>
+            <select name="fk_autor" class="form-control" required id="id_fk_autor" disabled>
+                <option value="{{cadastro_list.fk_autor}}" selected>{{cadastro_list.fk_autor}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputnumero_processo">Número do Processo</label>
+            <input type="number" name="numero_processo" class="form-control" required id="id_numero_processo" value="{{cadastro_list.numero_processo}}" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-7">
+            <label for="inputnomereu">Nome do Réu</label>
+            <input type="text" name="reu" maxlength="200" class="form-control" required id="id_reu" value="{{cadastro_list.reu}}" disabled>
+        </div>
+        <div class="form-group col-md-5">
+            <label for="inputdocumento">Cpf/Cnpj</label>
+            <input type="text" name="documento" maxlength="14" class="form-control" required id="id_documento" value="{{cadastro_list.documento}}" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <label class="">Possui advogado ?</label>
+        <div class="form-group col-md-4">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="advogado" value="0" class="custom-control-input" value="1" id="possuiadv1" {% if cadastro_list.advogado   ==  "1" %} checked="checked" {% endif %} disabled>
+                <label class="custom-control-label" for="possuiadv1">Sim</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="advogado" value="0" class="custom-control-input" {% if cadastro_list.advogado !=  "1" %} checked="checked" {% endif %} value="0" id="possuiadv2" disabled>
+                <label class="custom-control-label" for="possuiadv2">Não</label>
+            </div>
+        </div>
+        <label class="">É segredo ?</label>
+        <div class="form-group col-md-4">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="segredo" value="0" class="custom-control-input" {% if cadastro_list.segredo   ==  "1" %} checked="checked" {% endif %} value="1" id="segredo1" disabled>
+                <label class="custom-control-label" for="segredo1">Sim</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="segredo" value="0" class="custom-control-input" {% if cadastro_list.segredo !=    "1" %} checked="checked" {% endif %} value="0" id="segredo2" disabled>
+                <label class="custom-control-label" for="segredo2" checked>Não</label>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-dark bg-light static-top">
+        <div class="container justify-content-center">
+            <a class="navbar-brand justify-content-center">Dados da Inicial</a>
+        </div>
+    </nav>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputrua">Rua</label>
+            <input type="text" name="rua" maxlength="200" class="form-control" id="id_rua" value="{{cadastro_list.rua}}" disabled>
+        </div>
+        <div class="form-group col-md-1">
+            <label for="inputnumero">Número</label>
+            <input type="number" name="numero" class="form-control" id="id_numero" value="{{cadastro_list.numero}}" disabled>
+        </div>
+        <div class="form-group col-md-5">
+            <label for="inputcomplemento">Complemento</label>
+            <input type="text" name="complemento" class="form-control" id="inputcomplemento" value="  {% if cadastro_list.complemento is None %}
+                                                                                                      {% else %}
+                                                                                                      {{cadastro_list.complemento}}
+                                                                                                      {% endif %}" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-5">
+            <label for="inputbairro">Bairro</label>
+            <input type="text" name="bairro" maxlength="200" class="form-control" id="id_bairro" value="{{cadastro_list.bairro}}" disabled>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputcidade">Cidade</label>
+            <input type="text" name="cidade" maxlength="200" class="form-control" id="id_cidade" value="{{cadastro_list.cidade}}" disabled>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputcep">CEP</label>
+            <input type="text" name="cep" maxlength="8" class="form-control" id="id_cep" value="{{cadastro_list.cep}}" disabled>
+        </div>
 
-{{object.id}}
-{{object.reu}}
-{{object.numero_processo}}
+    </div>
+</form>
+    <nav class="navbar navbar-dark bg-light static-top">
+        <div class="container justify-content-center">
+            <a class="navbar-brand justify-content-center">Histórico de Status</a>
+        </div>
+    </nav>
+<!------------------------------------- TABELA DE RESULTADOS --------------------------------------->
+<div class="table-responsive-sm">
+    <table id="minhaTabela" class="table table-striped table-sm ">
+        <thead class="thead-light">
+            <tr align="center">
+                <th scope="col">Data de Alteração</th>
+                <th scope="col">Núm. Processo</th>
+                <th scope="col">Status</th>
+                <th scope="col">Observação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for e in statusgeral_list%}
+            <tr align="center">
+                <td>{{e.data_alteracao | date:"d/m/Y h:s:i"}}</td>
+                <td>{{e.fk_cadastro.numero_processo}}</td>
+				<td>{{e.get_status_acompanhamento_display}}</td>
+				<!-- Button trigger modal -->
+				<td>{{e.notas.value}}{%if e.notas is not None or e.notas.value != "" %}<img data-toggle="modal" data-target="#mod_{{e.id}}" class="img img-small"  src="{% static 'Gerenciador/img/buscar.png' %}"/>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{%for mod in statusgeral_list%}
+<!-- Modal -->
+<div class="modal fade" id="mod_{{mod.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Observação</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{mod.notas}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 
 {% endblock %}

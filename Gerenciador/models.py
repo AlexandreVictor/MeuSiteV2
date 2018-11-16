@@ -57,4 +57,7 @@ class statusgeral (models.Model):
     fk_cadastro = models.ForeignKey(cadastro, on_delete=models.CASCADE)
     data_alteracao = models.DateTimeField(auto_now=True)
     status_acompanhamento = models.IntegerField(choices=STATUS_ACOMPANHAMENTO, default=1) 
-    notas = models.CharField(max_length=250, blank=True)
+    notas = models.CharField(max_length=250, null=True, blank=True)
+
+    class Meta:
+        ordering = ['data_alteracao']

@@ -3,6 +3,31 @@
 {% load widget_tweaks%}
 
 {% block content %}
+<form method="POST">
+    <!-- Não se esqueça dessa tag -->
+    {% csrf_token %}
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container justify-content-center">
+            <a class="navbar-brand justify-content-center">Status do Processo</a>
+        </div>
+    </nav>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="id_status_processo">Status Processo</label>
+            {% render_field form.status_acompanhamento class+="form-control"%}
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputnumero_processo">Número do Processo</label>
+            <input type="number" name="numero_processo" class="form-control" required id="id_numero_processo" value="{{cadastro_list.numero_processo}}" disabled>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="notas">Observação</label>
+        {% render_field form.notas class+="form-control" rows="4"%}
+    </div>
+    <button type="submit" class="btn btn-success ">Finalizar Cadastro</button>
+    <a href={% url 'ListaProcesso' %} class="btn btn-danger">Cancelar</a>
+</form>
 <form>
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container justify-content-center">
@@ -12,7 +37,6 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputautor">Autor do Processo</label>
-            {#% render_field form.fk_autor class+="form-control"%#}
             <select name="fk_autor" class="form-control" required id="id_fk_autor" disabled>
                 <option value="{{cadastro_list.fk_autor}}" selected>{{cadastro_list.fk_autor}}</option>
             </select>
@@ -36,7 +60,7 @@
         <label class="">Possui advogado ?</label>
         <div class="form-group col-md-4">
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" name="advogado" value="0" class="custom-control-input" value="1" id="possuiadv1" {% if cadastro_list.advogado   ==      "1" %} checked="checked" {% endif %} disabled>
+                <input type="radio" name="advogado" value="0" class="custom-control-input" value="1" id="possuiadv1" {% if cadastro_list.advogado   ==  "1" %} checked="checked" {% endif %} disabled>
                 <label class="custom-control-label" for="possuiadv1">Sim</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
@@ -94,14 +118,7 @@
 
     </div>
 </form>
-{{cadastro_list.pk}}
-<form method="POST">
-    <!-- Não se esqueça dessa tag -->
-    {% csrf_token %}
 
-    {{form.as_p}}
-    <button type="submit" class="btn btn-success ">Entrar</button>
-</form>
 
 
 

@@ -37,13 +37,8 @@ class  StatusProcessoView(CreateView):
         })
         return context
 
-    def form_is_invalid(self, form):
-        print(form.data)
-        return super().form_valid(form)
-
     def form_valid(self, form):
         form.instance.fk_cadastro_id = self.kwargs.get('pk') #self.kwargs['pk']
-        print(form.data)
         return super().form_valid(form)
 # ---------------------------- DETALHES DE PROCESSOS
 class DetalhesProcessoView(DetailView):
@@ -112,15 +107,6 @@ class ListaProcessoView(ListView):
         context = super(ListaProcessoView, self).get_context_data(**kwargs)
         context['Autor']  = autor.objects.select_related('fk_autor').values()
         return context 
-
-
-
-
-
-
-
-
-
 
 
 

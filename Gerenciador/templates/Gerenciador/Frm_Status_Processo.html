@@ -6,7 +6,7 @@
 <form method="POST">
     <!-- Não se esqueça dessa tag -->
     {% csrf_token %}
-    <nav class="navbar navbar-light bg-light static-top">
+    <nav class="navbar navbar-light color-nav static-top">
         <div class="container justify-content-center">
             <a class="navbar-brand justify-content-center">Status do Processo</a>
         </div>
@@ -25,11 +25,12 @@
         <label for="notas">Observação</label>
         {% render_field form.notas class+="form-control" rows="4"%}
     </div>
-    <button type="submit" class="btn btn-success ">Finalizar Cadastro</button>
-    <a href={% url 'ListaProcesso' %} class="btn btn-danger">Cancelar</a>
+    <a href={% url 'ListaProcesso' %} class="btn btn-danger btn-sm">Cancelar</a>
+    <button type="submit" class="btn btn-success btn-sm">Finalizar Cadastro</button>
+    
 </form>
 <form>
-    <nav class="navbar navbar-light bg-light static-top">
+    <nav class="navbar navbar-light color-nav static-top">
         <div class="container justify-content-center">
             <a class="navbar-brand justify-content-center">Dados do Processo</a>
         </div>
@@ -80,7 +81,7 @@
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-dark bg-light static-top">
+    <nav class="navbar navbar-light color-nav static-top">
         <div class="container justify-content-center">
             <a class="navbar-brand justify-content-center">Dados da Inicial</a>
         </div>
